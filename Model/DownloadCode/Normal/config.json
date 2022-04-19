@@ -1,0 +1,5 @@
+{
+    "targetDir":"../",
+    "isJudgeExist":true,
+    "waitInputParam":"@@"
+}
