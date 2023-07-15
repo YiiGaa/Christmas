@@ -1,0 +1,101 @@
+.Header_Logo{
+    height: 4rem;
+}
+
+.Header_Body{
+    padding-top:4rem !important;
+    padding-bottom: 4rem !important;
+    /* background-image: linear-gradient(135deg, rgba(88,19,255,0.9) 0%, rgba(108,64,213,0.9) 38%, rgba(115,75,211,0.9) 38%, rgba(159,92,254,0.9) 100%); */
+    background-image: linear-gradient(to right, rgba(88,19,255,0.9) , rgba(159,92,254,0.9));
+    /* background-image: linear-gradient(135deg, #3A32B9 0%, #582cda 38%, #5438d5 38%, #5438d5 100%); */
+}
+
+@media screen and (max-width: 768px) {
+    .Header_Body{
+        padding-top:3rem !important;
+        padding-bottom: 3rem !important;
+    }
+}
+
+.Header_Body .navbar-toggler{
+    font-size: 2.5rem;
+}
+
+.Header_MainBody{
+    z-index: 2;
+}
+
+.Header_Shading{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    z-index: 1;
+    background-image: linear-gradient(135deg, transparent, transparent 38%, rgba(255,255,255,0.03) 38%,transparent 45%, transparent 100%);
+}
+
+.Header_Body .navbar-brand{
+    margin-right: 4rem;
+}
+
+.Header_BodyLeft .nav-item{
+    padding-left: 1rem;
+    padding-right: 1rem;
+    cursor: pointer;
+}
+
+.Header_Search{
+    padding-top: 2rem;
+    margin-right: 1rem;
+}
+
+.Header_Search .input-group input{
+    height: 6rem;
+    border-radius: 3rem;
+    border: 0;
+    padding-left: 2rem;
+    font-size: var(--Font_Text_Size);
+    color: var(--Font_Tips_Color);
+    outline: none !important;
+    width: 22rem;
+}
+.Header_Search .input-group input:focus{
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.Header_Body .dropdown-menu{
+    background-color: var(--Theme_ActiveColor);
+    font-size: var(--Font_Text_Size);
+    padding: 0.5rem 0.5rem !important;
+}
+
+.Header_Body .dropdown-menu.show{
+    opacity:0;
+    animation:.3s Header_ShowFrames forwards; 
+}
+@keyframes Header_ShowFrames {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.Header_Search .input-group span{
+    height: 6rem;
+    border-radius: 3rem;
+    border: 0;
+    background-color: #fff;
+    width: 5rem;
+    color: var(--Font_Text_Color);
+}
+
+.Header_BodyRight .nav-item{
+    padding-left: .5rem;
+    padding-right: .5rem;
+}
+
+.Header_BodyRight .nav-item{
+    padding-left: .5rem;
+    padding-right: .5rem;
+}

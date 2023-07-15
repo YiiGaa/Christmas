@@ -1,0 +1,20 @@
+[
+    {
+        "Xmas_shell":"ls",
+        "Xmas_cwd":"..",
+        "Xmas_judge":false
+    },
+    {
+        "Xmas_shell":"python3 Christmas.py Input/CleanCode/Sample#param",
+        "Xmas_cwd":".",
+        "Xmas_judge":true,
+        "※ Param tip: [dir name]":"GenCode_param"
+    },
+    {
+        "Xmas_shell":"python3 Christmas.py Input/GenCode/Sampe#param",
+        "Xmas_cwd":".",
+        "Xmas_judge":false,
+        "※ Param tip: [software name] [designer]":"\"Christmas 2\" \"Stop Refactoring\"",
+        "already exists, continue generating?":"yes"
+    }
+]

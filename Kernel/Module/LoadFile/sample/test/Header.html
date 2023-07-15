@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Header</title>
+<link rel="stylesheet" href="../../Common/BasicDependence/bootstrap/css/bootstrap.css">
+<link href="../../Common/Theme/theme.css" rel="stylesheet">
+<link href="../../Common/Theme/font.css" rel="stylesheet">
+<link href="Header.css" rel="stylesheet">
+</head>
+<body onload="ControlLoad()">
+<!--######Header######-->
+<nav id="id_Header_body" class="Header_Body navbar navbar-expand-xxl navbar-dark" v-cloak>
+<div class="Header_Shading"></div>
+<div class="container-xxl Font_SubTitle_Size Header_MainBody">
+<a class="navbar-brand" :href="Vue_Header_LogoLink">
+<img :src="Vue_Header_Logo" class="Header_Logo">
+</a>
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#id_Header_navbar" aria-controls="id_Header_navbar" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="id_Header_navbar" aria-expanded="false">
+<ul class="Header_BodyLeft navbar-nav me-auto navbar-nav-scroll">
+<li v-for="(list_1, index_1) in Vue_Header_Link" class="nav-item" :class="{'dropdown':list_1.list}">
+<a v-if="list_1.list==null" class="nav-link" :class="{active:Vue_Header_ActiveLink==list_1.title}" aria-current="page" :href="list_1.link" @click="Vue_Header_SelectFunction(list_1, list_1.title)">{{list_1.title}}</a>
+<a v-else-if="list_1.list!=null" class="nav-link dropdown-toggle" :class="{active:Vue_Header_ActiveLink==list_1.title}" :id="'id_Header_Link'+index_1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+{{list_1.title}}
+</a>
+<ul v-if="list_1.list!=null" class="dropdown-menu dropdown-menu-dark" :aria-labelledby="'id_Header_Link'+index_1">
+<li v-for="list_2 in list_1.list"><a class="dropdown-item" :href="list_2.link" @click="Vue_Header_SelectFunction(list_2, list_1.title)">{{list_2.title}}</a></li>
+</ul>
+</li>
+</ul>
+<div v-if="Vue_Header_Search" class="d-flex Header_Search">
+<div class="input-group mb-3">
+<input @keyup.enter="Vue_Header_SearchFunction()" v-model="Vue_Header_SearchText" type="text" class="form-control" type="search" :placeholder="Vue_Header_Search.placeholder" aria-label="Search" aria-describedby="id_Header_SearchIcon">
+<span class="input-group-text Font_SubTitle_Size" id="id_Header_SearchIcon"><i class="bi-search"></i></span>
+</div>
+</div>
+<div class="Header_BodyRight navbar-nav navbar-right ">
+<li v-if="Vue_Header_Language" class="nav-item dropdown Font_Text_Size">
+<a class="nav-link dropdown-toggle" id="id_Header_Language" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+{{Vue_Header_Language.title}}
+</a>
+<ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" aria-labelledby="id_Header_Language">
+<li v-for="list in Vue_Header_Language.list"><a class="dropdown-item" :href="list.link" @click="Vue_Header_LanguageFunction(list.link)">{{list.title}}</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<!--######Header######-->
+</body>
+<script src="../../Common/BasicDependence/jquery/jquery.min.js"></script>
+<script src="../../Common/BasicDependence/vue/vue.js"></script>
+<script src="../../Common/BasicDependence/bootstrap/js/bootstrap.js"></script>
+<script src="../../Common/Lib/import.js"></script>
+<script src="../../Common/DebuggingTools/IncludeLib.js"></script>
+<script src="Header.js"></script>
+</html>

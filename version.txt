@@ -1,4 +1,4 @@
-Christmas v1.0
+Christmas v2.0
 A general code generator
 
 gitHub: https://github.com/YiiGaa/Christmas

@@ -1,0 +1,10 @@
+[   
+    {
+        "Xmas_path":"./Test/GenCode/out.txt",
+        "Xmas_contain":"",
+        "Xmas_except":""
+    },
+    {
+        "Xmas_path":"./Test/GenCode/out2.txt"
+    }
+]

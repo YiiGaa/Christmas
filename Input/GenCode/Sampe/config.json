@@ -1,0 +1,12 @@
+{
+    "inputSign":"?",
+    "rewaitInput":"",
+    "isJudgeExist":false,
+    "isExistBackup":true,
+    "templatePath":{
+        "document":"./Template/GenCode/main.templ",
+        "content":"./Template/GenCode/main.templ",
+        "list":"./Template/GenCode/list.templ",
+        "tail":"./Template/GenCode/main.templ"
+    }
+}

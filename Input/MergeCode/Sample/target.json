@@ -1,0 +1,37 @@
+{
+    "Xmas_config":{
+        "@target@":"./Test/MergeCode/Sample",
+        "@source@":"./Template"
+    },
+    "Xmas_clean":{"@target@":"clean"},
+    "Xmas_task":[
+        {
+            "Xmas_target":"@target@/out.txt",
+            "Xmas_source":{
+                "Xmas_path":"@source@/GenCode/main.templ", "Xmas_filter":"######DOCUMENT-TEMPLATE######",
+                "@@text@@":"Christmas 2",
+                "@@content@@":{
+                    "Xmas_path":"@source@/GenCode/main.templ", "Xmas_filter":"######CONTENT-TEMPLATE######",
+                    "@@title@@":"If the code cannot be written only once, generate it.",
+                    "@@list@@":[
+                        {
+                            "Xmas_path":"@source@/GenCode/list.templ", "Xmas_filter":"######LIST-TEMPLATE######",
+                            "@@title@@":"GenCode",
+                            "@@info@@":"Generate code from code templates"
+                        },
+                        {
+                            "Xmas_path":"@source@/GenCode/list.templ", "Xmas_filter":"######LIST-TEMPLATE######",
+                            "@@title@@":"MergeCode",
+                            "@@info@@":"Cut and merge code from existing code, for change the code structure"
+                        }
+                    ],
+                    "@@json sample@@":"{\"official\":\"https://stoprefactoring.com\",\"isWorking\":true}"
+                },
+                "@@tail@@":{
+                    "Xmas_path":"@source@/GenCode/main.templ", "Xmas_filter":"######TAIL-TEMPLATE######",
+                    "@@text@@":"Stop Refactoring"
+                }
+            }
+        }
+    ]
+}
