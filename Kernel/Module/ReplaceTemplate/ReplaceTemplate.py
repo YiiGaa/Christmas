@@ -30,7 +30,7 @@ class ReplaceTemplate:
                     else:
                         content = content.replace(f'@@{key}@@', value)
             if isRelaceHash:
-                content = listContent.rstrip('\n')
+                content = listContent.removesuffix('\n')
         except Exception as e:
             print(f'Error: {e}')
             ReplaceTemplate.ErrorLog()
@@ -53,7 +53,7 @@ class ReplaceTemplate:
                     elif isinstance(value, bool):
                         value = str(value)
                     content += value + '\n'
-                param = content.rstrip('\n')
+                param = content.removesuffix('\n')
         elif isinstance(param, dict):
             isReplace = False
             for key,value in param.items():

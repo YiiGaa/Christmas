@@ -249,7 +249,7 @@ class GenFile:
                     if filterStr != '' or selectStr != '':
                         if not isFirstLine:
                             line = '\n'+line
-                        line = line.rstrip('\n')
+                        line = line.removesuffix('\n')
                         isFirstLine = False
                     outFile.write(line)
             line = sourceFile.readline()
@@ -306,7 +306,7 @@ class GenFile:
             content = param
         else:
             content = str(param)
-        return content.rstrip('\n')
+        return content.removesuffix('\n')
 
     def DoStart(param, outFileKey, sourceKey):
         if isinstance(param, list):

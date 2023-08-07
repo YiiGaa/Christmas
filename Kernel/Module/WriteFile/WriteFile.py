@@ -21,7 +21,7 @@ class WriteFile:
             for key,value in param.items():
                 if key != fileKey and extraKey not in key:
                     content += value + '\n'
-            content = content.rstrip('\n')
+            content = content.removesuffix('\n')
             
             enter = 'yes'
             if isJudgeExist == True and os.path.isfile(targetFile):

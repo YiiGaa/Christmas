@@ -26,7 +26,7 @@ class GetTemplate:
         except Exception as e:
             print(f'Error: {e}')
             GetTemplate.ErrorLog()
-        return content.rstrip('\n')
+        return content.removesuffix('\n')
 
     def Traverse(param, frontKey, templateKey, templatePath):
         if isinstance(param, list):
