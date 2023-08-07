@@ -2,6 +2,7 @@
 # -*- coding: UTF-8 -*-
 import json
 from Kernel.Config.Config import Config
+import re
 
 class ReplaceTemplate:
     def ErrorLog():
@@ -28,6 +29,13 @@ class ReplaceTemplate:
                         tempContent = content.replace(f'@@key@@', key)
                         listContent += tempContent.replace(f'@@value@@', value) + '\n'
                     else:
+                        if '\n' in value:
+                            blank = re.findall(rf'^\s+@@{key}@@|\n\s+@@{key}@@', content)
+                            for list_1 in blank:
+                                list_1 = list_1.replace('\n', '').replace(f'@@{key}@@', '')
+                                maches = re.match(rf'\s+', list_1)
+                                tempVlaue = list_1 + value.replace('\n', '\n'+list_1)
+                                content = content.replace(f'{list_1}@@{key}@@', tempVlaue, 1)
                         content = content.replace(f'@@{key}@@', value)
             if isRelaceHash:
                 content = listContent.removesuffix('\n')
