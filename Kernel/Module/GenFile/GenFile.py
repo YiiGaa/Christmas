@@ -145,7 +145,9 @@ class GenFile:
                     if GenFile.GenFile_FindList_Check(value.replace(findPath, ''), contain, excepts):
                         tempOutPath = value.replace(tempInPath, tempOutPath)               
                         if os.path.exists(tempOutPath)==False:
-                            os.makedirs(tempOutPath, 0o777)
+                            os.makedirs(tempOutPath, 0o777)           
+            if findList == {}:
+                print(f'**warning: in Xmas_path({path}), no file found!')
 
         for key,value in findList.items():
             checkDir = ''
