@@ -30,6 +30,12 @@ class MergeCode:
             'mod_isExistBackup':configParam['isExistBackup'],
         })
 
+        print('STEP::Clean Temporary Dir or File')
+        targetParam = Module.Start('CleanDirFile', targetParam, {
+            'mod_cleanKey':'Xmas_cleanTemp',
+            'mod_isNewDir':False
+        })
+
     def Start(targetParam, configParam):
         MergeCode.DoStart(targetParam, configParam)
         print('')
