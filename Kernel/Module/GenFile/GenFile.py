@@ -161,6 +161,16 @@ class GenFile:
 
         return findList
     
+    def GenFile_Output_Replace_AddSpace(line, replaceKey, tempContent):
+        if '\n' in tempContent:
+            blank = re.findall(rf'^\s+{replaceKey}|\n\s+{replaceKey}', line)
+            for list_1 in blank:
+                list_1 = list_1.replace('\n', '').replace(f'{replaceKey}', '')
+                tempVlaue = list_1 + tempContent.replace('\n', '\n'+list_1)
+                line = line.replace(f'{list_1}{replaceKey}', tempVlaue, 1)
+        line = line.replace(replaceKey, tempContent)
+        return line
+    
     def GenFile_Output_Replace(line, replace, outPath):
         for key,value in replace.items():
             matchKey = ''
@@ -195,15 +205,15 @@ class GenFile:
                     if replaceKey in line:
                         if isinstance(nextValue, dict) or isinstance(nextValue, list):
                             tempContent = GenFile.GenFile(nextValue, outPath, True, False)
-                            line = line.replace(replaceKey, tempContent, 1)
+                            line = GenFile.GenFile_Output_Replace_AddSpace(line, replaceKey, tempContent)
                         else:
-                            line = line.replace(replaceKey, nextValue, 1)
+                            line = line.replace(replaceKey, nextValue)
                     
             else:
                 if key in line:
                     if isinstance(value, dict) or isinstance(value, list):
                         tempContent = GenFile.GenFile(value, outPath, True, False)
-                        line = line.replace(key, tempContent, 1)
+                        line = GenFile.GenFile_Output_Replace_AddSpace(line, key, tempContent)
                     else:
                         line = line.replace(key, value)
         return line
