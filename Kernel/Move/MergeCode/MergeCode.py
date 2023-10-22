@@ -11,7 +11,7 @@ class MergeCode:
 
         print('STEP::Clean Dir or File')
         targetParam = Module.Start('CleanDirFile', targetParam, {
-            'mod_cleanKey':'Xmas_clean',
+            'mod_targetKey':'Xmas_clean',
             'mod_isNewDir':True
         })
 
@@ -32,7 +32,7 @@ class MergeCode:
 
         print('STEP::Clean Temporary Dir or File')
         targetParam = Module.Start('CleanDirFile', targetParam, {
-            'mod_cleanKey':'Xmas_cleanTemp',
+            'mod_targetKey':'Xmas_cleanTemp',
             'mod_isNewDir':False
         })
 

@@ -145,7 +145,7 @@ class GenFile:
                     if GenFile.GenFile_FindList_Check(value.replace(findPath, ''), contain, excepts):
                         tempOutPath = value.replace(tempInPath, tempOutPath)               
                         if os.path.exists(tempOutPath)==False:
-                            os.makedirs(tempOutPath, 0o777)           
+                            os.makedirs(tempOutPath, 0o777)
             if findList == {}:
                 print(f'**warning: in Xmas_path({path}), no file found!')
 
@@ -157,18 +157,24 @@ class GenFile:
                     break
                 checkDir += '/'
                 if os.path.exists(checkDir)==False and os.path.isfile(checkDir)==False:
-                    os.mkdir(checkDir, 0o777)   
+                    os.mkdir(checkDir, 0o777)  
 
         return findList
     
     def GenFile_Output_Replace_AddSpace(line, replaceKey, tempContent):
         if '\n' in tempContent:
             blank = re.findall(rf'^\s+{replaceKey}|\n\s+{replaceKey}', line)
+            tempMark = []
             for list_1 in blank:
                 list_1 = list_1.replace('\n', '').replace(f'{replaceKey}', '')
                 tempVlaue = list_1 + tempContent.replace('\n', '\n'+list_1)
-                line = line.replace(f'{list_1}{replaceKey}', tempVlaue, 1)
-        line = line.replace(replaceKey, tempContent)
+                tempMark.append(tempVlaue)
+                line = line.replace(f'{list_1}{replaceKey}', '@Christmas_mulitline_replace@', 1)
+            line = line.replace(replaceKey, tempContent)
+            for list_1 in tempMark:
+                line = line.replace('@Christmas_mulitline_replace@', list_1, 1)
+        else:
+            line = line.replace(replaceKey, tempContent)
         return line
     
     def GenFile_Output_Replace(line, replace, outPath):
@@ -177,7 +183,9 @@ class GenFile:
             keyTarget = None
             if '{' in key and '}' in key:
                 keyTarget = re.findall(r'(\{.*?\})', key)
-                matchKey = re.sub(r'\{.*?\}', '(.*?)', key)
+                matchKey = key.replace('(', '\\(')
+                matchKey = matchKey.replace(')', '\\)')
+                matchKey = re.sub(r'\{.*?\}', '(.*?)', matchKey)
                 maches = re.findall(rf'{matchKey}', line)
 
                 for list_1 in maches:

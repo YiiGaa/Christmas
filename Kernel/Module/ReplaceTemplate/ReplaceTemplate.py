@@ -8,6 +8,22 @@ class ReplaceTemplate:
     def ErrorLog():
         print('Quit! Module ReplaceTemplate Error.')
         exit(-1)
+    
+    def ReplaceTarget_AddSpace(line, replaceKey, tempContent):
+        if '\n' in tempContent:
+            blank = re.findall(rf'^\s+{replaceKey}|\n\s+{replaceKey}', line)
+            tempMark = []
+            for list_1 in blank:
+                list_1 = list_1.replace('\n', '').replace(f'{replaceKey}', '')
+                tempVlaue = list_1 + tempContent.replace('\n', '\n'+list_1)
+                tempMark.append(tempVlaue)
+                line = line.replace(f'{list_1}{replaceKey}', '@Christmas_mulitline_replace@', 1)
+            line = line.replace(replaceKey, tempContent)
+            for list_1 in tempMark:
+                line = line.replace('@Christmas_mulitline_replace@', list_1, 1)
+        else:
+            line = line.replace(replaceKey, tempContent)
+        return line
 
     def ReplaceTarget(param, templateKey):
         content = param[templateKey]
@@ -29,14 +45,7 @@ class ReplaceTemplate:
                         tempContent = content.replace(f'@@key@@', key)
                         listContent += tempContent.replace(f'@@value@@', value) + '\n'
                     else:
-                        if '\n' in value:
-                            blank = re.findall(rf'^\s+@@{key}@@|\n\s+@@{key}@@', content)
-                            for list_1 in blank:
-                                list_1 = list_1.replace('\n', '').replace(f'@@{key}@@', '')
-                                maches = re.match(rf'\s+', list_1)
-                                tempVlaue = list_1 + value.replace('\n', '\n'+list_1)
-                                content = content.replace(f'{list_1}@@{key}@@', tempVlaue, 1)
-                        content = content.replace(f'@@{key}@@', value)
+                        content = ReplaceTemplate.ReplaceTarget_AddSpace(content, f'@@{key}@@', value)
             if isRelaceHash:
                 content = listContent.removesuffix('\n')
         except Exception as e:
