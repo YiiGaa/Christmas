@@ -1,8 +1,0 @@
-Christmas v2.0
-A general code generator
-
-gitHub: https://github.com/YiiGaa/Christmas
-official: https://stoprefactoring.com
-Licensed under MIT
-
----Designed by Daniel.Leung

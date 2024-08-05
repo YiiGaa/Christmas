@@ -1,22 +1,26 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
-'''
-    Christmas v2.0
-    More Detail: https://github.com/YiiGaa/Christmas
-    official: https://stoprefactoring.com
-    Designed by Daniel.Leung
-'''
 
 import sys
 sys.dont_write_bytecode = True
 from Kernel.Move.Move import Move
 from Kernel.Config.Config import Config
 import os
+import json
 
 def PrintVersion():
-    with open('./version.txt', 'r') as file:
-        content = file.read()
-    print(content)
+    print('')
+    with open('./Load.json', 'r') as file:
+        content = json.load(file)
+        content = content['version']
+        print(f'Christmas v{content}')
+    print('A general code generator')
+    print('gitHub: https://github.com/YiiGaa/Christmas')
+    print('official: https://stoprefactoring.com')
+    print('Licensed under MIT')
+    print('Designed by stoprefactoring.com')
+    print('')
+
 
 if __name__ == '__main__':
     if not (sys.version_info.major >= 3 and sys.version_info.minor >= 9):
