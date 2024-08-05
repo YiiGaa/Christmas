@@ -28,7 +28,6 @@ if __name__ == '__main__':
         rootPath = sys.argv[0]
         if rootPath != "Christmas.py" and rootPath != "./Christmas.py":
             rootPath = rootPath.replace('Christmas.py','')
-            Config.inputPath = rootPath + Config.inputPath
             os.chdir(rootPath)
         PrintVersion()
         action = sys.argv[1]
