@@ -75,6 +75,10 @@ class GenFile:
             if '<' in path and '>' in path:
                 keyTarget = re.findall(r'(\<.*?\>)', path)
                 matchPath = re.sub(r'\<.*?\>', '(.*?)', path)
+                if matchPath.startswith('(.*?)'):
+                    matchPath = '(.*)' + matchPath[5:]
+                if matchPath.endswith('(.*?)'):
+                    matchPath = matchPath[:-5] + '(.*)'
                 path = re.sub(r'\<.*?\>', '*', path)
             
             findPath = ''
@@ -186,6 +190,10 @@ class GenFile:
                 matchKey = key.replace('(', '\\(')
                 matchKey = matchKey.replace(')', '\\)')
                 matchKey = re.sub(r'\{.*?\}', '(.*?)', matchKey)
+                if matchKey.startswith('(.*?)'):
+                    matchKey = '(.*)' + matchKey[5:]
+                if matchKey.endswith('(.*?)'):
+                    matchKey = matchKey[:-5] + '(.*)'
                 maches = re.findall(rf'{matchKey}', line)
 
                 for list_1 in maches:
@@ -228,6 +236,7 @@ class GenFile:
 
     def GenFile_Output_File(outPath, filePath, filterStr, selectStr, replace, isOutput):
         content = ''
+        #STEP::Copy file when not require select text
         if isOutput == True and not replace and filterStr == '' and not os.path.exists(outPath):
             print(f'{Config.logPrefix}{outPath}')
             if os.path.isfile(filePath):
@@ -236,12 +245,20 @@ class GenFile:
                 shutil.copytree(filePath, outPath)
             return content
 
+        #STEP::Add \n when output file exist
         if isOutput == True:
             isAddLine = True if os.path.exists(outPath) else False
             outFile = open(outPath, 'a', 0o777)
             if isAddLine:
                 outFile.write('\n')
+        
+        #STEP::When no need file text
+        if filterStr == '-' and selectStr == '-':
+            content = GenFile.GenFile_Output_Replace(content, replace, outPath)
+            content += '\n'
+            return content
 
+        #STEP::Open file and select text
         sourceFile = open(filePath)
         line = sourceFile.readline()
         isFirstLine = True
@@ -285,6 +302,10 @@ class GenFile:
             param = json.dumps(param)
             keyTarget = re.findall(r'(\<.*?\>)', path)
             matchPath = re.sub(r'\<.*?\>', '(.*?)', path)
+            if matchPath.startswith('(.*?)'):
+                matchPath = '(.*)' + matchPath[5:]
+            if matchPath.endswith('(.*?)'):
+                matchPath = matchPath[:-5] + '(.*)'
             maches = re.match(rf'{matchPath}', tempPath)
             if maches:
                 index = 0
