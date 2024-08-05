@@ -4,18 +4,19 @@ from Kernel.Module.Module import Module
 
 class DownloadCode:
     def DoStart(targetParam, configParam):
-        print('STEP::Get File List')
-        targetParam = Module.Start('LoadIndex', targetParam, {
+        print('STEP::Get Local Target')
+        targetParam = Module.Start('LoadTarget', targetParam, {
+            'mod_targetKey':'Xmas_target',
             'mod_urlKey':'Xmas_url',
-            'mod_indexKey':'Xmas_index',
-            'mod_resultKey':'Xmas_source'
+            'mod_indexKey':'Xmas_index'
         })
 
-        print('STEP::Download Files')
+        print('STEP::Update Target')
         targetParam = Module.Start('LoadFile', targetParam, {
             'mod_urlKey':'Xmas_url',
-            'mod_sourceKey':'Xmas_source',
+            'mod_indexKey':'Xmas_index',
             'mod_targetKey':'Xmas_target',
+            'mod_licenseKey':'Xmas_license',
             'mod_replaceExtraKey':'Xmas_',
             'mod_isJudgeExist':configParam['isJudgeExist'],
             'mod_isExistBackup':configParam['isExistBackup']

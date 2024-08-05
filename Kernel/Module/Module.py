@@ -6,7 +6,7 @@ from Kernel.Module.GetFileList.GetFileList import GetFileList
 from Kernel.Module.GetJsonFile.GetJsonFile import GetJsonFile
 from Kernel.Module.GetTemplate.GetTemplate import GetTemplate
 from Kernel.Module.LoadFile.LoadFile import LoadFile
-from Kernel.Module.LoadIndex.LoadIndex import LoadIndex
+from Kernel.Module.LoadTarget.LoadTarget import LoadTarget
 from Kernel.Module.ReplaceConfig.ReplaceConfig import ReplaceConfig
 from Kernel.Module.ReplaceTemplate.ReplaceTemplate import ReplaceTemplate
 from Kernel.Module.ShellExcute.ShellExcute import ShellExcute
@@ -20,7 +20,7 @@ class Module:
         'GetJsonFile': GetJsonFile,
         'GetTemplate': GetTemplate,
         'LoadFile':LoadFile,
-        'LoadIndex':LoadIndex,
+        'LoadTarget':LoadTarget,
         'ReplaceConfig':ReplaceConfig,
         'ReplaceTemplate': ReplaceTemplate,
         'ShellExcute': ShellExcute,

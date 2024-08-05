@@ -7,21 +7,18 @@ sys.dont_write_bytecode = True
 from Kernel.Module.LoadFile.LoadFile import LoadFile
 
 if __name__ == '__main__':
-    targetParam = {
-        'Xmas_url':'https://stoprefactoring.com/data/module/Header',
-        'Xmas_target':'./test',
-        'Xmas_source': [
-            'Header.html', 
-            'Header.css', 
-            'Header.js', 
-            'test/logo.svg'
-        ],
-        'control-start':'123'
-    }
+    targetParam = [
+        {
+            'Xmas_target':'./test/folder_1/folder_1-1/', 
+            'Xmas_url':'./test/folder_2/>>>/', 
+            'Xmas_index':'Load.json', 
+            'aa':'bb'
+        }
+    ]
 
     targetParam = LoadFile.Start(targetParam, {
         'mod_urlKey':'Xmas_url',
-        'mod_sourceKey':'Xmas_source',
+        'mod_indexKey':'Xmas_index',
         'mod_targetKey':'Xmas_target',
         'mod_replaceExtraKey':'Xmas_',
         'mod_isJudgeExist':False,
