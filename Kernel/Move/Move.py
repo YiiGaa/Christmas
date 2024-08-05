@@ -22,6 +22,7 @@ class Move:
         defaultConfig = {
             'isJudgeExist':True,
             'isExistBackup':True,
+			'isFillLack':False,
             'templatePath':{}
         }
         for key,value in defaultConfig.items():

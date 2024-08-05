@@ -19,7 +19,8 @@ class GenCode:
         targetParam = Module.Start('WriteFile', targetParam, {
             'mod_fileKey':'Xmas_path',
             'mod_isJudgeExist':configParam['isJudgeExist'],
-            'mod_isExistBackup':configParam['isExistBackup']
+            'mod_isExistBackup':configParam['isExistBackup'],
+            'mod_isFillLack':configParam['isFillLack']
         })
 
     def Start(targetParam, configParam):

@@ -5,13 +5,20 @@ import json
 import os
 import time
 import random
+import re
 
 class WriteFile:
     def ErrorLog():
         print('Quit! Module WriteFile Error.')
         exit(-1)
 
-    def Output(param, fileKey, extraKey, isJudgeExist, isExistBackup):
+    def FillingLack(content, isFillLack):
+        if isFillLack != True:
+            return content
+        content = re.sub(r'@@.*?@@', "", content)
+        return content
+
+    def Output(param, fileKey, extraKey, isJudgeExist, isExistBackup, isFillLack):
         content = ''
         targetFile = param[fileKey]
         if targetFile[-1] == '/':
@@ -22,6 +29,7 @@ class WriteFile:
                 if key != fileKey and extraKey not in key:
                     content += value + '\n'
             content = content.removesuffix('\n')
+            content = WriteFile.FillingLack(content, isFillLack)
             
             enter = 'yes'
             if isJudgeExist == True and os.path.isfile(targetFile):
@@ -59,11 +67,11 @@ class WriteFile:
             print(f'Error: {e}')
             WriteFile.ErrorLog()
 
-    def Traverse(param, fileKey, extraKey,  isJudgeExist, isExistBackup):
+    def Traverse(param, fileKey, extraKey,  isJudgeExist, isExistBackup, isFillLack):
         content = ''
         if isinstance(param, list):
             for index in range(len(param)):
-                content += WriteFile.Traverse(param[index], fileKey, extraKey, isJudgeExist, isExistBackup) 
+                content += WriteFile.Traverse(param[index], fileKey, extraKey, isJudgeExist, isExistBackup, isFillLack)
         elif isinstance(param, dict):
             isOutput = False
             for key,value in param.items():
@@ -71,10 +79,10 @@ class WriteFile:
                     if key == fileKey:
                         isOutput = True
                 else:
-                    param[key] = WriteFile.Traverse(value, fileKey, extraKey, isJudgeExist, isExistBackup)
+                    param[key] = WriteFile.Traverse(value, fileKey, extraKey, isJudgeExist, isExistBackup, isFillLack)
 
             if isOutput == True:
-                WriteFile.Output(param, fileKey, extraKey, isJudgeExist, isExistBackup)
+                WriteFile.Output(param, fileKey, extraKey, isJudgeExist, isExistBackup, isFillLack)
                 param = ''
             else:
                 for key,value in param.items():
@@ -89,8 +97,12 @@ class WriteFile:
         fileKey = moduleParam['mod_fileKey'] if 'mod_fileKey' in moduleParam else ''
         isJudgeExist = moduleParam['mod_isJudgeExist'] if 'mod_isJudgeExist' in moduleParam else True
         isExistBackup = moduleParam['mod_isExistBackup'] if 'mod_isExistBackup' in moduleParam else True
+        isFillLack = moduleParam['mod_isFillLack'] if 'mod_isFillLack' in moduleParam else False
 
-        targetParam = WriteFile.Traverse(targetParam, fileKey, extraKey, isJudgeExist, isExistBackup)  
+        if isFillLack == True:
+            print(f'{Config.logPrefix}>>Filling all lack setting')
+
+        targetParam = WriteFile.Traverse(targetParam, fileKey, extraKey, isJudgeExist, isExistBackup, isFillLack)
         return targetParam
 
     def Start(targetParam, moduleParam):
