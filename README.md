@@ -60,6 +60,21 @@ Christmas contains five major functions
 
 ## 历史版本 Revision History
 
+### 2.1
+
+- [update]去除version.txt文件，改用Load.json文件，方便软件升级
+- [update]GenCode增加isFillLack配置，用于设置在缺少参数时，是否填充为空字符串
+- [update]DownloadCode 增加版本切换，增加License传参
+- [bug]在非Christmas目录下运行，获取不了target.json
+- [bug]MergeCode的Xms_path中的变量，如果变量后不加上其他字符，会匹配到空字符串
+- [bug]GenCode中直接输出json数据，若json数据为多级嵌套，会输出文本不正确
+- [update]Remove the version.txt file and use the Load.json file instead, which is convenient for software upgrade
+- [update]GenCode adds the isFillLack configuration to set whether to fill an empty string when parameters are missing
+- [update]DownloadCode adds version query switching, add License transmission parameters
+- [bug]Running in a non-Christmas directory, you can't get target.json
+- [bug]The variable in the Xms_path of MergeCode will match the empty string if no other characters are added after the variable
+- [bug]Directly output json data in GenCode. If the json data is multi-level nested, the output text will be incorrect
+
 ### 2.0
 
 - python3重新编写
