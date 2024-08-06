@@ -2,12 +2,12 @@
 
 Christmas是一个通用代码生成器，如果代码不能只写一次，那就生成它。
 
-最新稳定版本: v2.0
+最新稳定版本: v2.1
 使用文档详见官网，[点击跳转使用手册](https://stoprefactoring.com/#content@content#framework/christmas/)
 
 Christmas is a generic code generator that generates code if it can't be written just once.
 
-Latest stable version: v2.0
+Latest stable version: v2.1
 For detailed documentation, please refer to the official website, [click to jump to the manual](https://stoprefactoring.com/#content@content#framework/christmas/).
 
 ---
