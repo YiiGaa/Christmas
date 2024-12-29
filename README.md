@@ -1,13 +1,13 @@
-<img src="https://raw.githubusercontents.com/YiiGaa/Trick/master/Prop/Common/Img/logo.png" width="300"/>
+<img src="Test/logo.png" width="300"/>
 
 Christmas是一个通用代码生成器，如果代码不能只写一次，那就生成它。
 
-最新稳定版本: v2.1
+最新稳定版本: 2.2=2024.12.29
 使用文档详见官网，[点击跳转使用手册](https://stoprefactoring.com/#content@content#framework/christmas/)
 
 Christmas is a generic code generator that generates code if it can't be written just once.
 
-Latest stable version: v2.1
+Latest stable version: 2.2=2024.12.29
 For detailed documentation, please refer to the official website, [click to jump to the manual](https://stoprefactoring.com/#content@content#framework/christmas/).
 
 ---
@@ -59,6 +59,16 @@ Christmas contains five major functions
 - ShellExcute: shell command line programming
 
 ## 历史版本 Revision History
+
+### 2.2
+- [update]config.json增加通用字段targetFile，允许引用外部target.json
+- [update]GenCode(config.json)增加字段fillLackMap，用于设置在缺少参数时，替换为默认字符串
+- [bug]DownloadCode下载非文本文件（图片等）会报错
+- [bug]GenCode，替换@@value@@模板为数组数据时，转换异常
+- [update] config.json adds the general field targetFile to allow references to external target.json
+- [update] GenCode(config.json) adds the field fillLackMap, which is used to replace it with the default string when the parameter is missing
+- [bug] DownloadCode will report an error when downloading non-text files (pictures, etc.)
+- [bug] GenCode, when replacing @@value@@ template with array data, conversion exception
 
 ### 2.1
 
