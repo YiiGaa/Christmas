@@ -2,13 +2,13 @@
 
 Christmas是一个通用代码生成器，如果代码不能只写一次，那就生成它。
 
-最新稳定版本: 2.4=2025.06.10
-使用文档详见官网，[点击跳转使用手册](https://stoprefactoring.com/#content@content#framework/christmas/)
+最新稳定版本: 2.3=2025.01.06
+使用文档详见官网，[点击跳转使用手册](https://stoprefactoring.com/official/content?t=framework&p=christmas&i=overview-overview)
 
 Christmas is a generic code generator that generates code if it can't be written just once.
 
-Latest stable version: 2.4=2025.06.10
-For detailed documentation, please refer to the official website, [click to jump to the manual](https://stoprefactoring.com/#content@content#framework/christmas/).
+Latest stable version: 2.3=2025.01.06
+For detailed documentation, please refer to the official website, [click to jump to the manual](https://stoprefactoring.com/official/content?t=framework&p=christmas&i=overview-overview).
 
 ---
 
@@ -59,18 +59,6 @@ Christmas contains five major functions
 - ShellExcute: shell command line programming
 
 ## 历史版本 Revision History
-
-### 2.4
-- [update]ShellExcute增加`Xmas_error`字段，用于配置命令发生错误时执行的操作
-- [update]Christmas运行方式，增加外部指定target.json config.json文件
-- [update]MergeCode增加`Xmas_remove`设置，用于清理临时文件
-- [update]MergeCode增加`isRemoveRepeat`，用于自动去除重复行
-- [update]MergeCode替换字段，增加正则表达式模式
-- [update] ShellExcute adds the `Xmas_error` field to configure the operation performed when the command error occurs
-- [update] Christmas run mode, add external specified target.json and config.json files
-- [update] MergeCode adds `Xmas_remove` settings to clean up temporary files
-- [update] MergeCode adds `isRemoveRepeat` to automatically remove duplicate lines
-- [update] MergeCode's replacement field, added regular expression pattern
 
 ### 2.3
 - [bug]修复Windows下，Christmas插件不能正常使用
