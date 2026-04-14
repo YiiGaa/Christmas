@@ -5,9 +5,13 @@ from Kernel.Move.DownloadCode.DownloadCode import DownloadCode
 from Kernel.Move.GenCode.GenCode import GenCode
 from Kernel.Move.MergeCode.MergeCode import MergeCode
 from Kernel.Move.ShellExcute.ShellExcute import ShellExcute
-from Kernel.Config.Config import Config
+from Kernel.Common.Config.Config import Config
+from Kernel.Common.Logger.Logger import Logger
+import Kernel.Common.Xmas.Xmas as Xmas
+import Kernel.Common.Lib.json5 as json5
 import json
 import re
+import traceback
 
 class Move:
     map = {
@@ -32,10 +36,6 @@ class Move:
             if key not in param:
                 param[key] = value
         return param
-
-    def ErrorLog(param):
-        print('Quit! '+param)
-        exit(-1)
     
     def ReadConfig(param):
         content = ''
@@ -46,24 +46,24 @@ class Move:
                 content = content + line
                 line = targetFile.readline()
             targetFile.close()
-            content = json.loads(content)
+            content = json5.loads(content)
 
         except Exception as e:
             print(f'Error: {e}')
-            Move.ErrorLog('load '+param+' fail')
+            Logger.Error('load '+param+' fail')
         return content
 
     def ReplaceSetting_Check(content, inputSign, isFailEnd):
         if re.search(rf'\{inputSign}(\d+?)\{inputSign}', content):
             maches = re.search(rf'\{inputSign}(\d+?)\{inputSign}', content)
             if isFailEnd:
-                Move.ErrorLog(f'Please input sufficient param! Param not met: {maches[0]}')
+                Logger.Error(f'Please input sufficient param! Param not met: {maches[0]}')
             else:
                 return False
 
         if re.search( rf'\{inputSign}\{inputSign}', content):
             if isFailEnd:
-                Move.ErrorLog(f'Please input sufficient param! Param not met: {inputSign}{inputSign}')
+                Logger.Error(f'Please input sufficient param! Param not met: {inputSign}{inputSign}')
             else:
                 return False
         return True
@@ -103,7 +103,7 @@ class Move:
                 
                 Move.ReplaceSetting_Check(content, inputSign, True)
             
-            target = json.loads(content)
+            target = json5.loads(content)
         return target      
 
     def Start(action, setting):
@@ -138,7 +138,10 @@ class Move:
             if configParam['targetFile'] != '':
                 loadPath = configParam['targetFile']
             print(f'{Config.logPrefix}loading '+loadPath)
-            targetParam = Move.ReadConfig(loadPath)
+            if loadPath.endswith(".xmas"):
+                targetParam = Xmas.Deal(Config.configXmas, loadPath)
+            else:
+                targetParam = Move.ReadConfig(loadPath)
 
             print(f'{Config.logPrefix}replace setting')
             targetParam = Move.ReplaceSetting(targetParam, configParam, setting)
@@ -152,11 +155,15 @@ class Move:
                 if targetParam.endswith(".json"):
                     print(f'{Config.logPrefix}loading '+targetParam)
                     targetParam = Move.ReadConfig(targetParam)
+                elif targetParam.endswith(".xmas"):
+                    print(f'{Config.logPrefix}loading '+targetParam)
+                    targetParam = Xmas.Deal(Config.configXmas, targetParam)
                 else:
-                    targetParam = json.loads(targetParam)
+                    targetParam = json5.loads(targetParam)
             except Exception as e:
                 print(f'Error: {e}')
-                Move.ErrorLog('load '+setting[0]+' as hash fail')
+                #traceback.print_exc()
+                Logger.Error('load '+setting[0]+' as hash fail')
 
             print(f'{Config.logPrefix}loading config setting')
             try:
@@ -165,12 +172,13 @@ class Move:
                     print(f'{Config.logPrefix}loading '+configParam)
                     configParam = Move.ReadConfig(configParam)
                 else:
-                    configParam = json.loads(configParam)
+                    configParam = json5.loads(configParam)
                 configParam = Move.DefaultConfig(configParam)
             except Exception as e:
                 print(f'Error: {e}')
-                Move.ErrorLog('load '+setting[1]+' as hash fail')
+                #traceback.print_exc()
+                Logger.Error('load '+setting[1]+' as hash fail')
 
             execute.Start(targetParam, configParam)
         else:
-            Move.ErrorLog('function not match')
+            Logger.Error('function not match')

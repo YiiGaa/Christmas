@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
+import Kernel.Common.Lib.json5 as json5
 import json
-from Kernel.Config.Config import Config
+from Kernel.Common.Config.Config import Config
+from Kernel.Common.Logger.Logger import Logger
 import os
 import time
 import random
@@ -12,7 +14,7 @@ import glob
 
 class GenFile:
     def ErrorLog():
-        print('Quit! Module GenFile Error.')
+        Logger.Error('Quit! Module GenFile Error.')
         exit(-1)
 
     def BackUp(targetFile):
@@ -181,7 +183,7 @@ class GenFile:
             tempVlaue = list_1+tempContent.replace('\n', '\n'+list_1)
             tempMark.append(tempVlaue)
             line = re.sub(rf'{list_1}{replaceKey}', '@Christmas_mulitline_replace@', line, count=1)
-        line = re.sub(rf'{replaceKey}', tempContent, line)
+        line = re.sub(rf'{replaceKey}', lambda m: tempContent, line)
 
         for list_1 in tempMark:
             if GenFile.isRemoveRepeat:
@@ -190,6 +192,7 @@ class GenFile:
                 list_1 = '\n'.join(tempMarkArr)
                 list_1 = list_1.rstrip('\n')
             line = line.replace('@Christmas_mulitline_replace@', list_1, 1)
+
         return line
 
     def GenFile_Output_Replace_Replace(key, line, value, outPath):
@@ -204,16 +207,16 @@ class GenFile:
         #WHEN::Target is list(deep generate)
         targetReplace = value
         if isinstance(value, dict) or isinstance(value, list):
-             tempContent = GenFile.GenFile(value, outPath, True, False)
-             if '\n' in tempContent:
+            tempContent = GenFile.GenFile(value, outPath, True, False)
+            if '\n' in tempContent:
                 return GenFile.GenFile_Output_Replace_AddSpace(line, key, tempContent)
-             else:
+            else:
                 targetReplace = tempContent
 
         #STEP::Replace line
         if key.startswith('reg##'):
             matchKey = key.removeprefix('reg##')
-            line = re.sub(rf'{matchKey}', targetReplace, line)
+            line = re.sub(rf'{matchKey}', lambda m: targetReplace, line)
         else:
             line = line.replace(key, targetReplace)
 
@@ -247,22 +250,29 @@ class GenFile:
                     if isinstance(list_1, tuple):
                         for index_2 in range(len(list_1)):
                             if index_2 < len(keyTarget):
-                                replaceKey = replaceKey.replace(keyTarget[index_2], list_1[index_2], 1)
+                                if replaceKey.startswith('reg##'):
+                                    replaceKey = replaceKey.replace(keyTarget[index_2], re.escape(list_1[index_2]), 1)
+                                else:
+                                    replaceKey = replaceKey.replace(keyTarget[index_2], list_1[index_2], 1)
                                 if isinstance(nextValue, dict) or isinstance(nextValue, list):
                                     nextValue = json.dumps(nextValue)
-                                    nextValue = nextValue.replace(keyTarget[index_2], list_1[index_2])
-                                    nextValue = json.loads(nextValue)
+                                    nextValue = nextValue.replace(keyTarget[index_2], re.sub(r'(?<!\\)"', r'\\"', list_1[index_2]))
+                                    nextValue = json5.loads(nextValue)
                                 elif isinstance(nextValue, str):
                                     nextValue = nextValue.replace(keyTarget[index_2], list_1[index_2])
                     else:
-                        replaceKey = replaceKey.replace(keyTarget[0], list_1, 1)
+                        if replaceKey.startswith('reg##'):
+                            replaceKey = replaceKey.replace(keyTarget[0], re.escape(list_1), 1)
+                        else:
+                            replaceKey = replaceKey.replace(keyTarget[0], list_1, 1)
                         if isinstance(nextValue, dict) or isinstance(nextValue, list):
                             nextValue = json.dumps(nextValue)
-                            nextValue = nextValue.replace(keyTarget[0], list_1)
-                            nextValue = json.loads(nextValue)
+                            # nextValue = nextValue.replace(keyTarget[0], list_1)
+                            nextValue = nextValue.replace(keyTarget[0], re.sub(r'(?<!\\)"', r'\\"', list_1))
+                            nextValue = json5.loads(nextValue)
                         elif isinstance(nextValue, str):
                             nextValue = nextValue.replace(keyTarget[0], list_1)
-                            
+
                     line = GenFile.GenFile_Output_Replace_Replace(replaceKey, line, nextValue, outPath)
                     
             else:
@@ -340,6 +350,7 @@ class GenFile:
         if isOutput == True:
             print(f'{Config.logPrefix}{outPath}')
             outFile.close()
+        
         return content
     
     def GenFile_Output_PathFind(param, path, tempPath):
@@ -358,7 +369,7 @@ class GenFile:
                     if index < len(keyTarget):
                         param = param.replace(keyTarget[index], value)
                     index += 1
-            param = json.loads(param)
+            param = json5.loads(param)
         return param
       
     def GenFile_Output(param, fileList, isOutput):
@@ -379,14 +390,16 @@ class GenFile:
             tempReplace = replace
             if GenFile.pathKey in param:
                 tempReplace = GenFile.GenFile_Output_PathFind(replace, param[GenFile.pathKey], key)
-            content += GenFile.GenFile_Output_File(value, key, filterStr, selectStr, tempReplace, isOutput, isRemove)  
+            content += GenFile.GenFile_Output_File(value, key, filterStr, selectStr, tempReplace, isOutput, isRemove) 
         return content   
     
     def GenFile(param, outPath, isSingleOut, isOutput):
         content = ''
         if isinstance(param, list):
             for index in range(len(param)):
-                content = content + GenFile.GenFile(param[index], outPath, isSingleOut, isOutput) + '\n'
+                tempContent = GenFile.GenFile(param[index], outPath, isSingleOut, isOutput)
+                if tempContent != '':
+                    content = content + tempContent + '\n'
         elif isinstance(param, dict):
             fileList = GenFile.GenFile_FindList(param, outPath, isSingleOut, isOutput)
             content = GenFile.GenFile_Output(param, fileList, isOutput)

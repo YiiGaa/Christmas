@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
-from Kernel.Config.Config import Config
+from Kernel.Common.Config.Config import Config
+from Kernel.Common.Logger.Logger import Logger
 import os
 import time
 import subprocess
 
 class ShellExcute:
     def ErrorLog():
-        print('Quit! Module ShellExcute Error.')
+        Logger.Error('Quit! Module ShellExcute Error.')
         exit(-1)
     
     def Excute(param, isJudge, inputList, cwdPath, commandError):
